@@ -1,9 +1,0 @@
-pyproject.toml
-decidoc/__init__.py
-decidoc/cli.py
-decidoc.egg-info/PKG-INFO
-decidoc.egg-info/SOURCES.txt
-decidoc.egg-info/dependency_links.txt
-decidoc.egg-info/entry_points.txt
-decidoc.egg-info/requires.txt
-decidoc.egg-info/top_level.txt
