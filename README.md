@@ -37,6 +37,6 @@ pip install git+https://github.com/22082476/decidoc.git
 
 ### Gebruik
 
-```sh
-decidoc
+```bash
+decidoc --help
 ```
