@@ -109,7 +109,7 @@ def add(
     status: str = typer.Option("Definitief", help="Status van de keuze"),
 
     context: str = typer.Option("", help="Context van de keuze"),
-    overwegingen: str = typer.Option("", help="Overwogen opties"),
+    considerations: str = typer.Option("", help="Overwogen opties"),
     choice: str = typer.Option("", help="Gemaakte keuze"),
     motivation: str = typer.Option("", help="Motivatie voor de keuze"),
     reflection: str = typer.Option("", help="Eerste reflectie / leerpunt"),
@@ -170,7 +170,7 @@ def add(
 {context or "Nog in te vullen."}
 
 ### Overwegingen
-{overwegingen or "Nog in te vullen."}
+{considerations or "Nog in te vullen."}
 
 ### Gemaakte keuze
 {choice or "Nog in te vullen."}
