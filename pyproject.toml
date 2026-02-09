@@ -9,7 +9,9 @@ description = "CLI tool for documenting decisions and learning during internship
 authors = [{ name = "Thom Versluis" }]
 dependencies = [
     "typer>=0.9",
-    "rich>=13.0"
+    "rich>=13.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0"
 ]
 
 [project.scripts]

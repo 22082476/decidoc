@@ -3,6 +3,7 @@ from pathlib import Path
 from datetime import date
 import re
 import tomllib
+from decidoc.apa import format_apa
 
 app = typer.Typer(help="DeciDoc – Decision Documentation CLI")
 
@@ -102,7 +103,6 @@ uitgebreide toelichting opgenomen.
 # ------------------------
 
 @app.command()
-@app.command()
 def add(
     title: str = typer.Option(..., help="Korte omschrijving van de keuze"),
     category: str = typer.Option(..., help="Categorie (Architectuur, Ontwerp, etc.)"),
@@ -110,9 +110,11 @@ def add(
 
     context: str = typer.Option("", help="Context van de keuze"),
     overwegingen: str = typer.Option("", help="Overwogen opties"),
-    keuze: str = typer.Option("", help="Gemaakte keuze"),
-    motivatie: str = typer.Option("", help="Motivatie voor de keuze"),
-    reflectie: str = typer.Option("", help="Eerste reflectie / leerpunt"),
+    choice: str = typer.Option("", help="Gemaakte keuze"),
+    motivation: str = typer.Option("", help="Motivatie voor de keuze"),
+    reflection: str = typer.Option("", help="Eerste reflectie / leerpunt"),
+    stakeholders: str = typer.Option("", help="Betrokkenen bij de keuze"),
+    sources: list[str] = typer.Option(None, help="Bronverwijzing (URL of tekst) Bijv. -s 'https://www.python.org, https://www.google.com'"),
 
     path: Path | None = typer.Option(None, help="Optioneel: override pad"),
 ):
@@ -135,6 +137,25 @@ def add(
         f"| [{choice_id}](#{anchor}) | {today} | {category} | {title} | {status} |"
     )
 
+    sources_section = ""
+    if sources:
+        # Split comma-separated sources and flatten list
+        processed_sources = []
+        for s in sources:
+            if "," in s:
+                processed_sources.extend([item.strip() for item in s.split(",")])
+            else:
+                processed_sources.append(s.strip())
+
+        formatted_sources = []
+        with typer.progressbar(processed_sources, label="Initialiseren bronnen...") as progress:
+            for s in progress:
+                formatted_sources.append(format_apa(s))
+        
+        sources_list = "\n".join([f"- {s}" for s in formatted_sources])
+        sources_section = f"{sources_list}"
+
+
     section = f"""
 ---
 
@@ -143,7 +164,7 @@ def add(
 
 **Datum:** {today}  
 **Categorie:** {category}  
-**Betrokkenen:**  
+**Betrokkenen:**  {stakeholders}
 
 ### Context
 {context or "Nog in te vullen."}
@@ -152,13 +173,16 @@ def add(
 {overwegingen or "Nog in te vullen."}
 
 ### Gemaakte keuze
-{keuze or "Nog in te vullen."}
+{choice or "Nog in te vullen."}
 
 ### Motivatie
-{motivatie or "Nog in te vullen."}
+{motivation or "Nog in te vullen."}
 
 ### Eerste reflectie
-{reflectie or "Nog in te vullen."}
+{reflection or "Nog in te vullen."}
+
+### Bronnen
+{sources_section or "Nog in te vullen."}
 """
 
     lines = content.splitlines()
