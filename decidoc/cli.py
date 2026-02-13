@@ -1,7 +1,7 @@
 import typer
 from pathlib import Path
-from functions import init_function, add_function, rollback_function
-from helper_functions import load_config_path
+from decidoc.functions import init_function, add_function, rollback_function
+from decidoc.helper_functions import load_config_path
 
 app = typer.Typer(help="DeciDoc – Decision Documentation CLI")
 
